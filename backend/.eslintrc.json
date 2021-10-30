@@ -1,0 +1,60 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "node": true
+    },
+    "extends": [
+        "airbnb-base"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "rules": {
+        "indent": ["error", 4, { "SwitchCase": 1 }],
+        "jsx-quotes": ["error", "prefer-single"],
+        "comma-dangle": ["error", "never"],
+        "func-names": ["error", "never"],
+        "radix": ["error", "as-needed"],
+        "array-bracket-spacing": [2, "never"],
+        "arrow-body-style": [2, "as-needed"],
+        "id-blacklist": [2, "a", "b", "c", "cb", "e", "x", "y"],
+        "import/order": [
+            2,
+            {
+                "groups": [
+                    "builtin",
+                    "external",
+                    "internal",
+                    "parent",
+                    "sibling",
+                    "index"
+                ],
+                "newlines-between": "never"
+            }
+        ],
+        "import/extensions": [0, "never"],
+        "max-len": [
+            2,
+            {
+                "code": 140,
+                "ignoreComments": true,
+                "ignoreStrings": true,
+                "ignoreTemplateLiterals": true
+            }
+        ],
+        "max-params": [2, 4],
+        "no-await-in-loop": 0,
+        "no-multiple-empty-lines": [
+            2,
+            {
+                "max": 1,
+                "maxEOF": 1
+            }
+        ],
+        "no-underscore-dangle": 0,
+        "object-curly-spacing": [2, "always"],
+        "space-before-blocks": 2
+    }
+}
