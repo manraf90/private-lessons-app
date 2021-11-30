@@ -5,6 +5,7 @@ import {
     Typography,
     CssBaseline
 } from '@mui/material';
+import Header from './Header/Header.jsx';
 
 const useStyles = makeStyles({
     '@global': {
@@ -35,6 +36,7 @@ const HomePage = () => {
     return (
         <div className={classes.root}>
             <CssBaseline />
+            <Header />
             <Paper className={classes.paper}>
                 <Typography variant='h1'>
                     Private lessons App
