@@ -19,24 +19,29 @@ const useStyles = makeStyles((theme) => ({
     },
     link: {
         textDecoration: 'none',
-        marginRight: theme.spacing(4),
-        color: 'white'
+        marginRight: theme.spacing(6),
+        color: 'white',
+        '&:hover': {
+            color: 'green'
+        }
     }
 }));
 
 const Header = () => {
     const classes = useStyles();
-    console.log(classes);
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position='fixed'>
+            <AppBar position='static'>
                 <Toolbar>
-                    <Link to='/' className={classes.link}>
-                        HOME
-                    </Link>
                     <Typography variant='h5'>
+                        <Link to='/' className={classes.link}>
+                            Home
+                        </Link>
                         <Link to='/students' className={classes.link}>
                             Students
+                        </Link>
+                        <Link to='/students/add' className={classes.link}>
+                            Add students
                         </Link>
                     </Typography>
                 </Toolbar>

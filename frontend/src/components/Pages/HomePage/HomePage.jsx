@@ -2,8 +2,7 @@ import React from 'react';
 import { makeStyles } from '@mui/styles';
 import {
     Paper,
-    Typography,
-    CssBaseline
+    Typography
 } from '@mui/material';
 
 const useStyles = makeStyles({
@@ -22,7 +21,7 @@ const useStyles = makeStyles({
     },
     paper: {
         width: '100vw',
-        height: '100vh',
+        height: '90vh',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -34,9 +33,8 @@ const HomePage = () => {
     const classes = useStyles();
     return (
         <div className={classes.root}>
-            <CssBaseline />
-            <Paper className={classes.paper}>
-                <Typography variant='h1'>
+            <Paper>
+                <Typography variant='h1' className={classes.paper}>
                     Private lessons App
                 </Typography>
             </Paper>

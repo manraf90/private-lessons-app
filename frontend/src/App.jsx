@@ -5,22 +5,24 @@ import { CssBaseline } from '@mui/material';
 import theme from './constants/theme.js';
 import HomePage from './components/Pages/HomePage/HomePage.jsx';
 import Students from './components/Pages/Students/Students.jsx';
+import AddStudents from './components/Pages/AddStudents/AddStudents.jsx';
 import Header from './components/Pages/Header/Header.jsx';
 
 function App() {
     return (
-        <div>
-            <CssBaseline/>
-            <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <div>
                 <BrowserRouter>
-                    <Header/>
+                    <Header />
                     <Switch>
                         <Route path='/' exact component={HomePage} />
                         <Route path='/students' exact component={Students} />
+                        <Route path='/students/add' exact component={AddStudents} />
                     </Switch>
                 </BrowserRouter>
-            </ThemeProvider>
-        </div>
+            </div>
+        </ThemeProvider>
     );
 }
 
