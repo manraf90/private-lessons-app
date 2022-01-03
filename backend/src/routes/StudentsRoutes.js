@@ -33,8 +33,6 @@ StudentsRoutes.delete('/:id', async (req, res) => {
     }
 });
 
-//UDATE STUDENTS DATA
-
 StudentsRoutes.patch('/:id', async (req, res) => {
     const { id } = req.params;
     const updateStudentData = req.body;

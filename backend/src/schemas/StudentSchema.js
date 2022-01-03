@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 const StudentSchema = new Schema({
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
-    date: { type: Date, required: true },
+    deadline: { type: String, required: true },
     class: { type: String, required: true },
     amountLessonsPerWeek: { type: Number, required: true },
     rate: { type: Number, required: true },
