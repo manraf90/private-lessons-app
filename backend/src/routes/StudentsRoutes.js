@@ -1,4 +1,5 @@
 import express from 'express';
+import logger from '../lib/logger.js';
 import { Students } from '../models/index.js';
 
 const StudentsRoutes = express.Router();
@@ -18,8 +19,10 @@ StudentsRoutes.post('/add', async (req, res) => {
     try {
         await newStudent.save();
         res.status(201).json({ message: 'New student was created', newStudent });
+        logger.info('New student was created', newStudent);
     } catch (error) {
-        res.status(400).json({ message: error.message});
+        res.status(400).json({ message: error});
+        logger.error(error);
     }
 });
 
