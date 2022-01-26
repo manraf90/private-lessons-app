@@ -1,13 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@mui/styles';
 import { CssBaseline } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
+import {
+    DataGrid,
+    GridFooterContainer,
+    GridFooter
+} from '@mui/x-data-grid';
 import axios from 'axios';
 import config from '../../../config/index.js';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
     datagrid: {
         width: '100%'
+    },
+    main: {
+        paddingLeft: theme.spacing(1),
+        paddingRight: theme.spacing(1),
+        paddingTop: theme.spacing(1),
+        height: '80vh'
+    },
+    footerSum: {
+        paddingLeft: theme.spacing(3),
+        paddingRight: theme.spacing(3)
     }
 }));
 
@@ -28,11 +42,6 @@ const columns = [
         flex: 1
     },
     {
-        field: 'class',
-        headerName: 'Klasa',
-        flex: 1
-    },
-    {
         field: 'amountLessonsPerWeek',
         headerName: 'Ilość lekcji',
         flex: 1
@@ -43,32 +52,61 @@ const columns = [
         flex: 1
     },
     {
-        field: 'phoneNumber',
-        headerName: 'Numer telefonu',
+        field: 'studentPhoneNumber',
+        headerName: 'Numer telefonu ucznia',
+        flex: 1
+    },
+    {
+        field: 'parentPhoneNumber',
+        headerName: 'Numer telefonu rodzica',
         flex: 1
     }
 ];
 
+const modifiedPhoneNumber = (phoneNumber) => {
+    const modifiedNumber = phoneNumber !== 'undefined' ? `${phoneNumber.slice(0, 3)} - ${phoneNumber.slice(3, 6)} - ${phoneNumber.slice(6, 9)}` : null;
+    return modifiedNumber;
+};
+
 const getFiltredData = (students) => {
-    const data = students.map((student) => ({
-        id: student._id,
-        firstName: student.firstName,
-        lastName: student.lastName,
-        deadline: student.deadline,
-        class: student.class,
-        amountLessonsPerWeek: student.amountLessonsPerWeek,
-        rate: student.rate,
-        phoneNumber: student.phoneNumber
+    const studentsData = students.map(({
+        _id, firstName, lastName, data
+    }) => ({
+        id: _id,
+        firstName,
+        lastName,
+        deadline: data.deadline,
+        amountLessonsPerWeek: data.amountLessonsPerWeek,
+        rate: data.rate,
+        studentPhoneNumber: modifiedPhoneNumber(String(data.studentPhoneNumber)),
+        parentPhoneNumber: modifiedPhoneNumber(String(data.parentPhoneNumber))
     }));
-    return data;
+    return studentsData;
 };
 
 const Students = () => {
     const classes = useStyles();
     const [filtredStudentsData, setFiltredStudentsData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [pageSize, setPageSize] = useState(5);
+    const [pageSize, setPageSize] = useState(10);
+    const [page, setPage] = useState(0);
     const [height, setHeight] = useState('');
+    const [sortModel, setSortModel] = useState([
+        {
+            field: 'deadline',
+            sort: 'asc'
+        }
+    ]);
+
+    const getMoneyPerWeek = () => {
+        let sumOfMoney = 0;
+        let sumOfLessons = 0;
+        filtredStudentsData.forEach((item) => {
+            sumOfLessons += Number(item.amountLessonsPerWeek);
+            sumOfMoney += Number(item.amountLessonsPerWeek) * Number(item.rate);
+        });
+        return [sumOfMoney, sumOfLessons];
+    };
 
     useEffect(() => {
         const headerHeight = document.querySelector('.MuiPaper-root') !== null ? (
@@ -91,7 +129,7 @@ const Students = () => {
     }, []);
 
     return (
-        <div className={classes.datagrid} style={{ height: `calc(100vh - ${height}px)` }}>
+        <div className={classes.main} style={{ height: `calc(100vh - ${height}px)` }}>
             <CssBaseline />
             <DataGrid
                 paginationMode='server'
@@ -101,9 +139,31 @@ const Students = () => {
                 autoHeight
                 cursor='pointer'
                 pagination
-                rowsPerPageOptions={[5, 10, 20]}
+                rowsPerPageOptions={[10, 20, 30, 40, 50]}
                 pageSize={pageSize}
-                onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+                page={page}
+                onPageChange={(selectedPage) => setPage(selectedPage)}
+                onPageSizeChange={(params) => {
+                    console.log(params);
+                    return setPageSize(params);
+                }}
+                sortModel={sortModel}
+                onSortModelChange={(model) => setSortModel(model)}
+                components={{
+                    Footer: () => (
+                        <GridFooterContainer>
+                            <div className={classes.footerSum}>
+                                Liczba lekcji w tygodniu: &nbsp;
+                                {getMoneyPerWeek()[1]} h &nbsp; &nbsp;
+                                Tygodniowo: &nbsp;
+                                {getMoneyPerWeek()[0]} zł &nbsp; &nbsp;
+                                Miesięcznie: &nbsp;
+                                {getMoneyPerWeek()[0] * 4} zł
+                            </div>
+                            <GridFooter />
+                        </GridFooterContainer>
+                    )
+                }}
             />
         </div>
     );

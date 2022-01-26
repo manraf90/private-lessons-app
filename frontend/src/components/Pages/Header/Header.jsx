@@ -17,12 +17,15 @@ const useStyles = makeStyles((theme) => ({
         flex: 1,
         right: '20px'
     },
+    '& MuiAppBar-root': {
+        backgroundColor: 'red'
+    },
     link: {
         textDecoration: 'none',
         marginRight: theme.spacing(6),
         color: 'white',
         '&:hover': {
-            color: 'green'
+            color: 'lightgreen'
         }
     }
 }));
@@ -31,17 +34,17 @@ const Header = () => {
     const classes = useStyles();
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position='static'>
+            <AppBar position='static' color='primary' enableColorOnDark>
                 <Toolbar>
                     <Typography variant='h5'>
                         <Link to='/' className={classes.link}>
-                            Home
+                            Strona główna
                         </Link>
                         <Link to='/students' className={classes.link}>
-                            Students
+                            Uczniowie
                         </Link>
                         <Link to='/students/add' className={classes.link}>
-                            Add students
+                            Dodaj ucznia
                         </Link>
                     </Typography>
                 </Toolbar>
