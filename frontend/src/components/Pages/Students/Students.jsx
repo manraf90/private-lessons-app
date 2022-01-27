@@ -89,7 +89,6 @@ const Students = () => {
     const [filtredStudentsData, setFiltredStudentsData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [pageSize, setPageSize] = useState(10);
-    const [page, setPage] = useState(0);
     const [height, setHeight] = useState('');
     const [sortModel, setSortModel] = useState([
         {
@@ -132,7 +131,6 @@ const Students = () => {
         <div className={classes.main} style={{ height: `calc(100vh - ${height}px)` }}>
             <CssBaseline />
             <DataGrid
-                paginationMode='server'
                 rows={filtredStudentsData}
                 columns={columns}
                 loading={isLoading}
@@ -141,12 +139,7 @@ const Students = () => {
                 pagination
                 rowsPerPageOptions={[10, 20, 30, 40, 50]}
                 pageSize={pageSize}
-                page={page}
-                onPageChange={(selectedPage) => setPage(selectedPage)}
-                onPageSizeChange={(params) => {
-                    console.log(params);
-                    return setPageSize(params);
-                }}
+                onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
                 sortModel={sortModel}
                 onSortModelChange={(model) => setSortModel(model)}
                 components={{
